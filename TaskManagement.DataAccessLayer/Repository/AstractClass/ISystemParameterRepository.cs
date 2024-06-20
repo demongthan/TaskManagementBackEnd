@@ -1,4 +1,6 @@
-﻿using TaskManagement.DataAccessLayer.DataModels;
+﻿using TaskManagement.DataAccessLayer.Common;
+using TaskManagement.DataAccessLayer.DataModels;
+using TaskManagement.DataAccessLayer.Repository.RepositoryParameters;
 
 namespace TaskManagement.DataAccessLayer.Repository.AstractClass
 {
