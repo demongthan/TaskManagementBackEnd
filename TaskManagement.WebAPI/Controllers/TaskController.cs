@@ -6,6 +6,7 @@ using TaskManagement.BusinessLogicLayer.ActionFilters;
 using TaskManagement.BusinessLogicLayer.Common.Reponse;
 using TaskManagement.BusinessLogicLayer.DataDomains.SystemParameter;
 using TaskManagement.BusinessLogicLayer.DataDomains.Task;
+using TaskManagement.BusinessLogicLayer.Request;
 using TaskManagement.BusinessLogicLayer.Services.AstractClass;
 using TaskManagement.DataAccessLayer.DataModels;
 
@@ -33,6 +34,12 @@ namespace TaskManagement.WebAPI.Controllers
             var taskEntity = _mapper.Map<TaskItem>(taskCreateDto);
 
             return await _taskService.CreateTask(taskEntity, fileds);
+        }
+
+        [HttpGet("GetAllTask")]
+        public async Task<ApiReponse<IEnumerable<ExpandoObject>>> GetAllProduct([FromQuery] TaskRequestParameter taskRequestParameter)
+        {
+            return await _taskService.GetAllTask(taskRequestParameter);
         }
     }
 }

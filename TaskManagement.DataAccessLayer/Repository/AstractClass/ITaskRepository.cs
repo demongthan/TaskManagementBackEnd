@@ -6,7 +6,7 @@ namespace TaskManagement.DataAccessLayer.Repository.AstractClass
 {
     public interface ITaskRepository
     {
-        Task<PagedList<TaskItem>> GetAllSystemParameterAsyn(TaskRP taskRP, bool trackChanges);
+        Task<PagedList<TaskItem>> GetAllTaskAsyn(TaskRP taskRP, bool trackChanges);
 
         void CreateTaskAsyn(TaskItem taskItem);
 
