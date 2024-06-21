@@ -4,16 +4,16 @@ using System.Linq.Dynamic.Core;
 
 namespace TaskManagement.DataAccessLayer.Repository.RepositoryExtensions
 {
-    public static class SystemParameterExtension
+    public static class TaskExtension
     {
-        public static IQueryable<SystemParameter> PagedSystemParameter(this IQueryable<SystemParameter> systemParameters, int pageNumber, int pageSize) => systemParameters.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        public static IQueryable<TaskItem> PagedTasks(this IQueryable<TaskItem> tasks, int pageNumber, int pageSize) => tasks.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-        public static IQueryable<SystemParameter> Search(this IQueryable<SystemParameter> systemParameters, string searchTerm)
+        public static IQueryable<TaskItem> Search(this IQueryable<TaskItem> tasks, string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
-                return systemParameters;
+                return tasks;
             var lowerCaseTerm = searchTerm.Trim().ToLower();
-            return systemParameters.Where(e => e.Code.ToLower().Contains(lowerCaseTerm));
+            return tasks.Where(e => e.Title.ToLower().Contains(lowerCaseTerm));
         }
 
         public static IQueryable<SystemParameter> Sort(this IQueryable<SystemParameter> systemParameters, string orderByQueryString)
