@@ -7,6 +7,11 @@ namespace TaskManagement.DataAccessLayer.ApplicationDbContext
 {
     public class DataDbContext : DbContext
     {
+        public DataDbContext(DbContextOptions<DataDbContext> options) : base(options)
+        {
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string text = File.ReadAllText(@"..\TaskManagement.DataAccessLayer\ApplicationDbContext\ConnectionString.json");

@@ -7,13 +7,13 @@ using TaskManagement.BusinessLogicLayer.ActionFilters;
 using TaskManagement.DataAccessLayer.Repository.AstractClass;
 using TaskManagement.DataAccessLayer.UnitOfWork.AstractClass;
 using TaskManagement.DataAccessLayer.UnitOfWork;
-using Microsoft.AspNetCore.Authentication;
 using TaskManagement.BusinessLogicLayer.Services.AstractClass;
 using TaskManagement.BusinessLogicLayer.Services;
 using TaskManagement.DataAccessLayer.Repository;
 using TaskManagement.BusinessLogicLayer.Common.DataShaping.AstractClass;
 using TaskManagement.BusinessLogicLayer.Common.DataShaping;
 using TaskManagement.BusinessLogicLayer.DataDomains.SystemParameter;
+using TaskManagement.BusinessLogicLayer.DataDomains.Task;
 
 namespace TaskManagement.WebAPI.Extensions
 {
@@ -30,24 +30,28 @@ namespace TaskManagement.WebAPI.Extensions
 
         public static void ConfigureDIActionFilters(this WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<ValidateSystemParameterExistsAttribute>();
+            builder.Services.AddScoped<ValidateTaskExistsAttribute>();
         }
 
         public static void ConfigureDIRepsitory(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<ISystemParameterRepository, SystemParameterRepository>();
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
         }
 
         public static void ConfigureDIDataShaper(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IDataShaper<SystemParameterDto>, DataShaper<SystemParameterDto>>();
+            builder.Services.AddScoped<IDataShaper<TaskDto>, DataShaper<TaskDto>>();
         }
 
         public static void ConfigureDIService(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<ISystemParameterService, SystemParameterService>();
-            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<ITaskService, TaskService>();
         }
     }
 }

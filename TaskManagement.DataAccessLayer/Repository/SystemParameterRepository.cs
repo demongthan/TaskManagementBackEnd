@@ -1,7 +1,10 @@
-﻿using TaskManagement.DataAccessLayer.ApplicationDbContext;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskManagement.DataAccessLayer.ApplicationDbContext;
 using TaskManagement.DataAccessLayer.Common;
 using TaskManagement.DataAccessLayer.DataModels;
 using TaskManagement.DataAccessLayer.Repository.AstractClass;
+using TaskManagement.DataAccessLayer.Repository.RepositoryExtensions;
+using TaskManagement.DataAccessLayer.Repository.RepositoryParameters;
 
 namespace TaskManagement.DataAccessLayer.Repository
 {
@@ -16,10 +19,9 @@ namespace TaskManagement.DataAccessLayer.Repository
 
         public async Task<PagedList<SystemParameter>> GetAllSystemParameterAsyn(SystemParameterRP systemParameterRP, bool trackChanges)
         {
-            var systemParameters = await FindAll(trackChanges).PagedSystemParameter(systemParameterRP.PageNumber, systemParameterRP.PageSize).Search(systemParameterRP.SearchTerm).ToListAsync();
-
+            var systemParameters = await FindAll(trackChanges).PagedSystemParameter(systemParameterRP.PageNumber, systemParameterRP.PageSize)
+                .Search(systemParameterRP.SearchTerm).ToListAsync();
             var count = await FindAll(trackChanges).Search(systemParameterRP.SearchTerm).CountAsync();
-
             var metaData = new MetaData(systemParameterRP.PageSize, systemParameterRP.PageNumber, count);
 
             return PagedList<SystemParameter>.ToPagedList(systemParameters, metaData);
@@ -35,3 +37,4 @@ namespace TaskManagement.DataAccessLayer.Repository
 
         public void DeleteSystemParameterAsyn(SystemParameter systemParameter) => Delete(systemParameter);
     }
+}
