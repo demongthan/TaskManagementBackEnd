@@ -19,7 +19,7 @@ namespace TaskManagement.DataAccessLayer.Repository
 
         public void CreateTaskAsyn(TaskItem taskItem) => Create(taskItem);
 
-        public async Task<PagedList<TaskItem>> GetAllSystemParameterAsyn(TaskRP taskRP, bool trackChanges)
+        public async Task<PagedList<TaskItem>> GetAllTaskAsyn(TaskRP taskRP, bool trackChanges)
         {
             var tasks = await FindAll(trackChanges).PagedTasks(taskRP.PageNumber, taskRP.PageSize).Search(taskRP.SearchTerm).ToListAsync();
             var count = await FindAll(trackChanges).Search(taskRP.SearchTerm).CountAsync();

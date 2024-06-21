@@ -6,9 +6,11 @@ using TaskManagement.BusinessLogicLayer.Common.DataShaping.AstractClass;
 using TaskManagement.BusinessLogicLayer.Common.LoggerService.AstractClass;
 using TaskManagement.BusinessLogicLayer.Common.Reponse;
 using TaskManagement.BusinessLogicLayer.DataDomains.Task;
+using TaskManagement.BusinessLogicLayer.Request;
 using TaskManagement.BusinessLogicLayer.Services.AstractClass;
 using TaskManagement.DataAccessLayer.DataModels;
 using TaskManagement.DataAccessLayer.Repository.AstractClass;
+using TaskManagement.DataAccessLayer.Repository.RepositoryParameters;
 using TaskManagement.DataAccessLayer.UnitOfWork.AstractClass;
 
 namespace TaskManagement.BusinessLogicLayer.Services
@@ -39,6 +41,8 @@ namespace TaskManagement.BusinessLogicLayer.Services
 
         public async Task<ApiReponse<ExpandoObject>> CreateTask(TaskItem taskEntity, string fileds)
         {
+            taskEntity.IsCompleted = false;
+
             _taskRepository.CreateTaskAsyn(taskEntity);
 
             if (await _unitOfWork.SaveChangesAsync())
@@ -57,6 +61,17 @@ namespace TaskManagement.BusinessLogicLayer.Services
 
                 return new ApiReponse<ExpandoObject>(false, "Failed", StatusCodes.Status500InternalServerError);
             }
+        }
+
+        public async Task<ApiReponse<IEnumerable<ExpandoObject>>> GetAllTask(TaskRequestParameter taskRequestParameter)
+        {
+            var taskRP = new TaskRP(taskRequestParameter.PageNumber, taskRequestParameter.PageSize, taskRequestParameter.OrderBy, taskRequestParameter.SearchTerm);
+            var tasksFromDb = await _taskRepository.GetAllTaskAsyn(taskRP, false);
+            var tasksDto = _mapper.Map<IEnumerable<TaskDto>>(tasksFromDb);
+            var result = _dataShaper.ShapeData(tasksDto, taskRequestParameter.Fields);
+            var systemParameter = await _systemParameterRepository.GetSystemParameterAsynByCode(SystemParameterCode.CODE_MESSAGE_GETALL_TASK, false);
+
+            return new ApiReponse<IEnumerable<ExpandoObject>>(true, systemParameter.Content, StatusCodes.Status200OK, result);
         }
     }
 }

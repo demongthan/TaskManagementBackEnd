@@ -1,3 +1,3 @@
 {
-  "DefaultConnection": "Data Source=DESKTOP-4O5QJ9V;Database=TaskManagement;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+  "DefaultConnection": "Server=tcp:karen-dev.database.windows.net,1433;Initial Catalog=TaskManagement;Persist Security Info=False;User ID=namnv57;Password=Nam@040300;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 }
