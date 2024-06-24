@@ -6,7 +6,7 @@ using TaskManagement.BusinessLogicLayer.Common.DataShaping.AstractClass;
 using TaskManagement.BusinessLogicLayer.Common.LoggerService.AstractClass;
 using TaskManagement.BusinessLogicLayer.Common.Reponse;
 using TaskManagement.BusinessLogicLayer.DataDomains.Task;
-using TaskManagement.BusinessLogicLayer.Request;
+using TaskManagement.BusinessLogicLayer.Request.Task;
 using TaskManagement.BusinessLogicLayer.Services.AstractClass;
 using TaskManagement.DataAccessLayer.DataModels;
 using TaskManagement.DataAccessLayer.Repository.AstractClass;

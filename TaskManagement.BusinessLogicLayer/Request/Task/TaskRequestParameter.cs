@@ -1,6 +1,6 @@
-﻿namespace TaskManagement.BusinessLogicLayer.Request
+﻿namespace TaskManagement.BusinessLogicLayer.Request.Task
 {
-    public class TaskRequestParameter:RequestParameter
+    public class TaskRequestParameter : RequestParameter
     {
         public TaskRequestParameter()
         {
