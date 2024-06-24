@@ -1,6 +1,7 @@
 using TaskManagement.WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 builder.ConfigureDbContext();
@@ -17,16 +18,9 @@ builder.ConfigureDIActionFilters();
 
 builder.ConfigureDIService();
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.ConfigureAddCors(MyAllowSpecificOrigins);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://localhost:3000").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                      });
-});
+builder.ConfigureAddNewtonsoftJson();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

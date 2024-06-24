@@ -39,7 +39,7 @@ namespace TaskManagement.BusinessLogicLayer.Services
             _systemParameterRepository = systemParameterRepository;
         }
 
-        public async Task<ApiReponse<ExpandoObject>> CreateTask(TaskItem taskEntity, string fileds)
+        public async Task<ApiReponse<ExpandoObject>> CreateTask(TaskItem taskEntity, string? fileds)
         {
             taskEntity.IsCompleted = false;
 
@@ -53,13 +53,13 @@ namespace TaskManagement.BusinessLogicLayer.Services
 
                 _loggerManager.LogInfo(string.Format("Task create successfully!", taskReturn.Id));
 
-                return new ApiReponse<ExpandoObject>(true, systemParameter.Content, StatusCodes.Status200OK, result);
+                return new ApiReponse<ExpandoObject>(systemParameter.Content, result);
             }
             else
             {
                 var systemParameter = await _systemParameterRepository.GetSystemParameterAsynByCode(SystemParameterCode.CODE_MESSAGE_CREATE_TASK_FAIL, false);
 
-                return new ApiReponse<ExpandoObject>(false, "Failed", StatusCodes.Status500InternalServerError);
+                return new ApiReponse<ExpandoObject>(systemParameter.Content);
             }
         }
 
@@ -69,9 +69,49 @@ namespace TaskManagement.BusinessLogicLayer.Services
             var tasksFromDb = await _taskRepository.GetAllTaskAsyn(taskRP, false);
             var tasksDto = _mapper.Map<IEnumerable<TaskDto>>(tasksFromDb);
             var result = _dataShaper.ShapeData(tasksDto, taskRequestParameter.Fields);
-            var systemParameter = await _systemParameterRepository.GetSystemParameterAsynByCode(SystemParameterCode.CODE_MESSAGE_GETALL_TASK, false);
 
-            return new ApiReponse<IEnumerable<ExpandoObject>>(true, systemParameter.Content, StatusCodes.Status200OK, result);
+            return new ApiReponse<IEnumerable<ExpandoObject>>(null, result);
+        }
+
+        public async Task<ApiReponse<ExpandoObject>> GetTaskById(Guid id, string? fileds)
+        {
+            var taskFromDb = await _taskRepository.GetTaskByIdAsyn(id, false);
+            var taskDto = _mapper.Map<TaskDto>(taskFromDb);
+            var result = _dataShaper.ShapeData(taskDto, fileds);
+
+            return new ApiReponse<ExpandoObject>(null, result);
+        }
+
+        public async Task<ApiReponse<ExpandoObject>> UpdateTask(TaskItem taskEntity, string fileds)
+        {
+            taskEntity.UpdateAt = DateTime.UtcNow;
+            _taskRepository.UpdateTaskAsyn(taskEntity);
+
+            if (await _unitOfWork.SaveChangesAsync())
+            {
+                var taskReturn = _mapper.Map<TaskDto>(taskEntity);
+                var result = _dataShaper.ShapeData(taskReturn, fileds);
+
+                return new ApiReponse<ExpandoObject>("successfully", result);
+            }
+            else
+            {
+                return new ApiReponse<ExpandoObject>("Failed");
+            }
+        }
+
+        public async Task<ApiReponse<bool>> DeleteTask(TaskItem taskEntity)
+        {
+            _taskRepository.DeleteTaskAsyn(taskEntity);
+
+            if (await _unitOfWork.SaveChangesAsync())
+            {
+                return new ApiReponse<bool>("Successfull", true);
+            }
+            else
+            {
+                return new ApiReponse<bool>("Failed");
+            }
         }
     }
 }

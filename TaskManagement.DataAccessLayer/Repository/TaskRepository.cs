@@ -19,6 +19,10 @@ namespace TaskManagement.DataAccessLayer.Repository
 
         public void CreateTaskAsyn(TaskItem taskItem) => Create(taskItem);
 
+        public void UpdateTaskAsyn(TaskItem taskItem) => Update(taskItem);
+
+        public void DeleteTaskAsyn(TaskItem taskItem) => Delete(taskItem);
+
         public async Task<PagedList<TaskItem>> GetAllTaskAsyn(TaskRP taskRP, bool trackChanges)
         {
             var tasks = await FindAll(trackChanges).PagedTasks(taskRP.PageNumber, taskRP.PageSize).Search(taskRP.SearchTerm).ToListAsync();

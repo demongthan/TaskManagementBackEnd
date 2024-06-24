@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using System.Dynamic;
 using TaskManagement.BusinessLogicLayer.Common.DataShaping.AstractClass;
 using TaskManagement.BusinessLogicLayer.Common.LoggerService.AstractClass;
@@ -45,13 +44,13 @@ namespace TaskManagement.BusinessLogicLayer.Services
 
                 _loggerManager.LogError(string.Format("System Parameter create successfully {0}", systemParameterEntity.Code));
 
-                return new ApiReponse<ExpandoObject>(true, "successfully", StatusCodes.Status200OK, result);
+                return new ApiReponse<ExpandoObject>("successfully", result);
             }
             else
             {
                 _loggerManager.LogError(string.Format("System Parameter create is failed {0}", systemParameterEntity.Code));
 
-                return new ApiReponse<ExpandoObject>(false, "Failed", StatusCodes.Status500InternalServerError);
+                return new ApiReponse<ExpandoObject>("Failed");
             }
         }
     }

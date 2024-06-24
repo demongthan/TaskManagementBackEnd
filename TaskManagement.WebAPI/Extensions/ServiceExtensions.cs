@@ -28,6 +28,19 @@ namespace TaskManagement.WebAPI.Extensions
         public static void ConfigureDIAutoMapper(this WebApplicationBuilder builder)
             => builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+        public static void ConfigureAddNewtonsoftJson(this WebApplicationBuilder builder)
+            => builder.Services.AddControllers().AddNewtonsoftJson();
+
+        public static void ConfigureAddCors(this WebApplicationBuilder builder, string MyAllowSpecificOrigins)
+            => builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins(builder.Configuration.GetValue("UrlFrondEnd", "")).AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
+
         public static void ConfigureDIActionFilters(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<ValidationFilterAttribute>();

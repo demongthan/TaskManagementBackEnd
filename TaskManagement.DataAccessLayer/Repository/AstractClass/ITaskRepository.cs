@@ -13,5 +13,9 @@ namespace TaskManagement.DataAccessLayer.Repository.AstractClass
         Task<TaskItem> GetTaskByTitleAsyn(string title, bool trackChanges);
 
         Task<TaskItem> GetTaskByIdAsyn(Guid id, bool trackChanges);
+
+        void UpdateTaskAsyn(TaskItem taskItem);
+
+        void DeleteTaskAsyn(TaskItem taskItem);
     }
 }

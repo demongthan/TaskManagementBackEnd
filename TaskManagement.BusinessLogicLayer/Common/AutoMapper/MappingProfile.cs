@@ -14,6 +14,7 @@ namespace TaskManagement.BusinessLogicLayer.Common.AutoMapper
 
             CreateMap<TaskItem, TaskDto>().ReverseMap();
             CreateMap<TaskCreateDto, TaskItem>().ReverseMap();
+            CreateMap<TaskUpdateDto, TaskItem>().ReverseMap();
         }
     }
 }
