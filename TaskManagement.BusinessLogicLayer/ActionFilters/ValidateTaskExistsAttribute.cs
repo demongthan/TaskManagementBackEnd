@@ -50,7 +50,7 @@ namespace TaskManagement.BusinessLogicLayer.ActionFilters
                 }
                 else
                 {
-                    context.HttpContext.Items.Add("systemParameter", systemParameter);
+                    context.HttpContext.Items.Add("task", systemParameter);
                     await next();
                 }
             }
