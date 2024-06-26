@@ -2,9 +2,12 @@
 {
     public class TaskRP : BaseRP
     {
-        public TaskRP(int pageNumber, int pageSize, string orderBy, string searchTerm) : base(pageNumber, pageSize, orderBy, searchTerm)
+        private bool? isCompleted;
+        public TaskRP(int pageNumber, int pageSize, string orderBy, bool? isCompleted) : base(pageNumber, pageSize, orderBy)
         {
-
+            this.IsCompleted = isCompleted;
         }
+
+        public bool? IsCompleted { get => isCompleted; set => isCompleted = value; }
     }
 }

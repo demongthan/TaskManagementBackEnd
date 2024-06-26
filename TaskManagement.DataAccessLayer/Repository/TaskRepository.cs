@@ -25,8 +25,8 @@ namespace TaskManagement.DataAccessLayer.Repository
 
         public async Task<PagedList<TaskItem>> GetAllTaskAsyn(TaskRP taskRP, bool trackChanges)
         {
-            var tasks = await FindAll(trackChanges).PagedTasks(taskRP.PageNumber, taskRP.PageSize).Search(taskRP.SearchTerm).ToListAsync();
-            var count = await FindAll(trackChanges).Search(taskRP.SearchTerm).CountAsync();
+            var tasks = await FindAll(trackChanges).PagedTasks(taskRP.PageNumber, taskRP.PageSize).Search(taskRP.IsCompleted).ToListAsync();
+            var count = await FindAll(trackChanges).Search(taskRP.IsCompleted).CountAsync();
             var metaData = new MetaData(taskRP.PageSize, taskRP.PageNumber, count);
 
             return PagedList<TaskItem>.ToPagedList(tasks, metaData);

@@ -65,7 +65,7 @@ namespace TaskManagement.BusinessLogicLayer.Services
 
         public async Task<ApiReponse<IEnumerable<ExpandoObject>>> GetAllTask(TaskRequestParameter taskRequestParameter)
         {
-            var taskRP = new TaskRP(taskRequestParameter.PageNumber, taskRequestParameter.PageSize, taskRequestParameter.OrderBy, taskRequestParameter.SearchTerm);
+            var taskRP = _mapper.Map<TaskRP>(taskRequestParameter);
             var tasksFromDb = await _taskRepository.GetAllTaskAsyn(taskRP, false);
             var tasksDto = _mapper.Map<IEnumerable<TaskDto>>(tasksFromDb);
             var result = _dataShaper.ShapeData(tasksDto, taskRequestParameter.Fields);
