@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.BusinessLogicLayer.Request.Task
+﻿namespace TaskManagement.BusinessLogicLayer.Request
 {
     public class TaskRequestParameter : RequestParameter
     {
@@ -7,7 +7,7 @@
 
         }
         public string? OrderBy { get; set; }
-        public string? SearchTerm { get; set; }
+        public bool? IsCompleted { get; set; }
         public string? Fields { get; set; }
     }
 }

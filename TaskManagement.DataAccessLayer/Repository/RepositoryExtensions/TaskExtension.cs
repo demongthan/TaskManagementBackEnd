@@ -8,22 +8,22 @@ namespace TaskManagement.DataAccessLayer.Repository.RepositoryExtensions
     {
         public static IQueryable<TaskItem> PagedTasks(this IQueryable<TaskItem> tasks, int pageNumber, int pageSize) => tasks.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-        public static IQueryable<TaskItem> Search(this IQueryable<TaskItem> tasks, string searchTerm)
+        public static IQueryable<TaskItem> Search(this IQueryable<TaskItem> tasks, bool? isCompleted)
         {
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            if (isCompleted==null)
                 return tasks;
-            var lowerCaseTerm = searchTerm.Trim().ToLower();
-            return tasks.Where(e => e.Title.ToLower().Contains(lowerCaseTerm));
+
+            return tasks.Where(e => e.IsCompleted==isCompleted);
         }
 
-        public static IQueryable<SystemParameter> Sort(this IQueryable<SystemParameter> systemParameters, string orderByQueryString)
+        public static IQueryable<TaskItem> Sort(this IQueryable<TaskItem> tasks, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
-                return systemParameters.OrderBy(e => e.Code);
+                return tasks.OrderBy(e => e.Title);
             var orderQuery = OrderQueryBuilder.CreateOrderQuery<SystemParameter>(orderByQueryString);
             if (string.IsNullOrWhiteSpace(orderQuery))
-                return systemParameters.OrderBy(e => e.Code);
-            return systemParameters.OrderBy(orderQuery);
+                return tasks.OrderBy(e => e.Title);
+            return tasks.OrderBy(orderQuery);
         }
     }
 }

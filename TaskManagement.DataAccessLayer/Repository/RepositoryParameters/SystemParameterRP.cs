@@ -2,9 +2,12 @@
 {
     public class SystemParameterRP : BaseRP
     {
-        public SystemParameterRP(int pageNumber, int pageSize, string orderBy, string searchTerm) : base(pageNumber, pageSize, orderBy, searchTerm)
+        private string searchTerm;
+        public SystemParameterRP(int pageNumber, int pageSize, string orderBy, string SearchTerm) : base(pageNumber, pageSize, orderBy)
         {
-
+            this.searchTerm = SearchTerm;
         }
+
+        public string SearchTerm { get => searchTerm; set => searchTerm = value; }
     }
 }
